@@ -1,8 +1,7 @@
 import { useMemo } from 'react'
-import type { BudgetHistoryEntry, ShoppingCategory, ShoppingItem } from '../types'
+import type { ShoppingCategory, ShoppingItem } from '../types'
 import type { LanguageKey } from '../i18n'
 import { translate, translateCategory, translateItemName, translateItemUnit } from '../i18n'
-import BudgetInsights from './BudgetInsights'
 
 type SelectedItem = ShoppingItem & {
   selected: boolean
@@ -20,10 +19,6 @@ type SummaryProps = {
   onShareEmail: () => void
   onShareSystem: () => void
   onClearAll: () => void
-  totalCost: number
-  categoryCosts: Array<{ name: ShoppingCategory; cost: number }>
-  budgetHistory: BudgetHistoryEntry[]
-  budgetTarget: number | null
 }
 
 const Summary = ({
@@ -36,10 +31,6 @@ const Summary = ({
   onShareEmail,
   onShareSystem,
   onClearAll,
-  totalCost,
-  categoryCosts,
-  budgetHistory,
-  budgetTarget,
 }: SummaryProps) => {
   const grouped = useMemo(() => {
     return items.reduce<Record<ShoppingCategory, SelectedItem[]>>((acc, item) => {
@@ -49,7 +40,14 @@ const Summary = ({
     }, {} as Record<ShoppingCategory, SelectedItem[]>)
   }, [items])
 
-  const priceUnavailable = translate(language, 'price.unavailable')
+  const categoryCounts = useMemo(
+    () =>
+      Object.entries(grouped).map(([category, list]) => ({
+        name: category as ShoppingCategory,
+        count: list.length,
+      })),
+    [grouped],
+  )
 
   if (items.length === 0) {
     return (
@@ -73,9 +71,6 @@ const Summary = ({
           <h2 className="font-heading text-2xl sm:text-3xl">{translate(language, 'summary.title')}</h2>
           <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-300">
             {translate(language, 'summary.subtitle')}
-          </p>
-          <p className="text-sm font-medium text-emerald-600 dark:text-emerald-300">
-            {translate(language, 'summary.totalCost', { amount: priceUnavailable })}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -105,13 +100,8 @@ const Summary = ({
           <span className="rounded-full bg-primary/10 px-4 py-1 text-primary-dark dark:bg-primary/20">
             {translate(language, 'summary.totalSelected', { count: items.length })}
           </span>
-          <span className="rounded-full bg-emerald-100 px-4 py-1 text-emerald-700 dark:bg-emerald-900/60 dark:text-emerald-200">
-            {translate(language, 'summary.totalCost', { amount: priceUnavailable })}
-          </span>
         </div>
       </div>
-
-      <BudgetInsights history={budgetHistory} total={totalCost} target={budgetTarget} language={language} />
 
       <div className="grid gap-5">
         {Object.entries(grouped).map(([category, list]) => (
@@ -134,9 +124,6 @@ const Summary = ({
                         <p className="text-sm text-neutral-500 dark:text-neutral-300">
                           {item.quantity || '-'} {translateItemUnit(language, item)}
                         </p>
-                        <p className="text-sm font-medium text-emerald-600 dark:text-emerald-300">
-                          {translate(language, 'summary.lineCost', { amount: priceUnavailable })}
-                        </p>
                       </div>
                       {item.note ? (
                         <p className="w-full rounded-lg bg-neutral-100 px-3 py-2 text-sm text-neutral-600 dark:bg-neutral-800 dark:text-neutral-200 sm:w-64">
@@ -153,14 +140,14 @@ const Summary = ({
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
-        {categoryCosts.map((category) => (
+        {categoryCounts.map((category) => (
           <div
             key={category.name}
             className="flex items-center justify-between rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
           >
             <span className="font-medium">{translateCategory(language, category.name)}</span>
             <span className="font-semibold text-emerald-600 dark:text-emerald-300">
-              {translate(language, 'summary.categoryCost', { amount: priceUnavailable })}
+              {translate(language, 'summary.categoryCount', { count: category.count })}
             </span>
           </div>
         ))}

@@ -10,24 +10,18 @@ export type TranslationKey =
   | 'home.viewItems'
   | 'category.total'
   | 'category.selected'
-  | 'category.totalCost'
   | 'items.back'
   | 'items.toSummary'
   | 'items.searchPlaceholder'
   | 'items.quantityPlaceholder'
   | 'items.notePlaceholder'
-  | 'items.categoryCost'
-  | 'items.totalBudget'
-  | 'items.priceUnit'
-  | 'items.lineTotal'
+  | 'items.categoryCount'
   | 'items.seasonal'
   | 'summary.title'
   | 'summary.subtitle'
   | 'summary.empty'
   | 'summary.totalSelected'
-  | 'summary.totalCost'
-  | 'summary.categoryCost'
-  | 'summary.lineCost'
+  | 'summary.categoryCount'
   | 'summary.exportCsv'
   | 'summary.exportPdf'
   | 'summary.shareWhatsapp'
@@ -43,6 +37,7 @@ export type TranslationKey =
   | 'settings.darkMode'
   | 'settings.darkMode.on'
   | 'settings.darkMode.off'
+  | 'settings.budgetDisabled'
   | 'navbar.home'
   | 'navbar.items'
   | 'navbar.summary'
@@ -76,20 +71,15 @@ export type TranslationKey =
   | 'suggestions.seasonalTitle'
   | 'suggestions.add'
   | 'suggestions.timesSelected'
-  | 'price.unavailable'
   | 'export.pdfUnavailable'
   | 'export.languageLine'
   | 'export.quantityLine'
-  | 'export.unitPriceLine'
-  | 'export.subtotalLine'
   | 'export.noteLine'
   | 'export.pdfFontError'
   | 'export.pdfGenericError'
   | 'export.csv.product'
   | 'export.csv.quantity'
   | 'export.csv.unit'
-  | 'export.csv.price'
-  | 'export.csv.total'
   | 'export.csv.note'
   | 'footer.message'
   | 'footer.copyright'
@@ -199,24 +189,18 @@ const translations: Record<LanguageKey, TranslationRecord> = {
     'home.viewItems': 'تفرّج عالفئة',
     'category.total': '{count} منتوج',
     'category.selected': '{count} مختار',
-    'category.totalCost': 'جاري {amount}',
     'items.back': 'رجوع',
     'items.toSummary': 'شوف الملخّص',
     'items.searchPlaceholder': 'دوّر على منتوج...',
     'items.quantityPlaceholder': 'الكمية',
     'items.notePlaceholder': 'ملاحظة',
-    'items.categoryCost': 'مجموع الفئة: {amount}',
-    'items.totalBudget': 'الإجمالي: {count} منتوج · {amount}',
-    'items.priceUnit': 'السعر للوحدة: {price}',
-    'items.lineTotal': 'المجموع: {total}',
+    'items.categoryCount': 'فيها {count} منتوج',
     'items.seasonal': 'موسمي',
     'summary.title': 'ملخّص القايمة',
     'summary.subtitle': 'هاو المنتوجات اللي علّمت عليهم ✔️',
     'summary.empty': 'ما فما حتى منتوج معلّم عليه. بدّل الفئة وكمّل القايمة.',
     'summary.totalSelected': '{count} منتوج مختار',
-    'summary.totalCost': 'المجموع: {amount}',
-    'summary.categoryCost': '{amount}',
-    'summary.lineCost': 'قيمة السلعة: {amount}',
+    'summary.categoryCount': '{count} منتوج',
     'summary.exportCsv': 'تصدير CSV',
     'summary.exportPdf': 'تصدير PDF',
     'summary.shareWhatsapp': 'شارك على واتساب',
@@ -249,6 +233,7 @@ const translations: Record<LanguageKey, TranslationRecord> = {
     'settings.budgetReset': 'نحي الهدف',
     'settings.budgetCurrent': 'الهدف الحالي: {amount}',
     'settings.budgetNoTarget': 'ما فماش هدف محدّد. حدّد واحد باش نعاونّوك.',
+    'settings.budgetDisabled': 'تتبّع الميزانية موقوف طول ما الأسعار موش متوفرة.',
     'budget.title': 'مراقبة الميزانية',
     'budget.subtitle': 'تابع مصاريفك مقارنة بالهدف اللي حددتو.',
     'budget.current': 'المجموع الحالي: {amount}',
@@ -265,20 +250,15 @@ const translations: Record<LanguageKey, TranslationRecord> = {
     'suggestions.seasonalTitle': 'الاختيارات الموسمية',
     'suggestions.add': 'ضيف للقائمة',
     'suggestions.timesSelected': 'تمّ اختيارو {count} مرّات',
-    'price.unavailable': 'السعر غير متوفّر حاليا',
     'export.pdfUnavailable': 'التصدير إلى PDF غير مدعوم حالياً للغة العربية.',
     'export.languageLine': 'اللغة: {language}',
     'export.quantityLine': 'الكمية: {quantity}{unit}',
-    'export.unitPriceLine': 'السعر الفردي: {price}',
-    'export.subtotalLine': 'المجموع الجزئي: {total}',
     'export.noteLine': 'ملاحظة: {note}',
     'export.pdfFontError': 'ما نجّمش نحمّل الخط العربي للتصدير. تأكّد من الأنترنت وجرّب مرّة أخرى.',
     'export.pdfGenericError': 'صار مشكل وقت التصدير للـ PDF. جرّب مرّة أخرى لو سمحت.',
     'export.csv.product': 'المُنتوج',
     'export.csv.quantity': 'الكمية',
     'export.csv.unit': 'الوحدة',
-    'export.csv.price': 'السعر',
-    'export.csv.total': 'المجموع',
     'export.csv.note': 'ملاحظة',
     'footer.message': 'ما نطلب كان دعاؤكم. ربي ينوّر طريقكم ويبارك فيكم ❤️',
     'footer.copyright': '© {year} Sou9a List · كل الحقوق محفوظة.',
@@ -350,7 +330,7 @@ const translations: Record<LanguageKey, TranslationRecord> = {
     'seasonal.subtitle': 'أقوى ما في السوق التونسي هالأيّام',
     'seasonal.cta': 'شوف الفئة',
     'share.subject': 'قائمة السوق متاعي',
-    'share.bodyLine': '{index}. {name} — {quantity}{unit}{note} · {total}',
+    'share.bodyLine': '{index}. {name} — {quantity}{unit}{note}',
     'share.empty': 'القائمة فارغة حالياً.',
   },
   fr: {
@@ -361,24 +341,18 @@ const translations: Record<LanguageKey, TranslationRecord> = {
     'home.viewItems': 'Voir la catégorie',
     'category.total': '{count} produit(s)',
     'category.selected': '{count} sélectionné(s)',
-    'category.totalCost': 'Total: {amount}',
     'items.back': 'Retour',
     'items.toSummary': 'Voir le résumé',
     'items.searchPlaceholder': 'Chercher un produit...',
     'items.quantityPlaceholder': 'Quantité',
     'items.notePlaceholder': 'Note',
-    'items.categoryCost': 'Total catégorie : {amount}',
-    'items.totalBudget': '{count} produit(s) · {amount}',
-    'items.priceUnit': 'Prix unitaire : {price}',
-    'items.lineTotal': 'Sous-total : {total}',
+    'items.categoryCount': '{count} produit(s) dans cette catégorie',
     'items.seasonal': 'De saison',
     'summary.title': 'Résumé de la liste',
     'summary.subtitle': 'Voici les produits cochés ✔️',
     'summary.empty': 'Aucun produit sélectionné pour le moment. Reviens aux catégories pour compléter ta liste.',
     'summary.totalSelected': '{count} produit(s) sélectionné(s)',
-    'summary.totalCost': 'Total : {amount}',
-    'summary.categoryCost': '{amount}',
-    'summary.lineCost': 'Sous-total : {amount}',
+    'summary.categoryCount': '{count} produit(s)',
     'summary.exportCsv': 'Exporter en CSV',
     'summary.exportPdf': 'Exporter en PDF',
     'summary.shareWhatsapp': 'Partager sur WhatsApp',
@@ -411,6 +385,7 @@ const translations: Record<LanguageKey, TranslationRecord> = {
     'settings.budgetReset': 'Réinitialiser',
     'settings.budgetCurrent': 'Objectif actuel : {amount}',
     'settings.budgetNoTarget': 'Aucun objectif défini pour le moment.',
+    'settings.budgetDisabled': 'Le suivi budget est désactivé tant que les prix ne sont pas disponibles.',
     'budget.title': 'Suivi du budget',
     'budget.subtitle': 'Compare ton panier actuel à ton objectif de dépenses.',
     'budget.current': 'Total actuel : {amount}',
@@ -427,20 +402,15 @@ const translations: Record<LanguageKey, TranslationRecord> = {
     'suggestions.seasonalTitle': 'En ce moment',
     'suggestions.add': 'Ajouter',
     'suggestions.timesSelected': 'Ajouté {count} fois',
-    'price.unavailable': 'Prix non disponible pour le moment',
     'export.pdfUnavailable': 'L’export PDF n’est pas encore disponible pour cette langue.',
     'export.languageLine': 'Langue : {language}',
     'export.quantityLine': 'Quantité : {quantity}{unit}',
-    'export.unitPriceLine': 'Prix unitaire : {price}',
-    'export.subtotalLine': 'Sous-total : {total}',
     'export.noteLine': 'Note : {note}',
     'export.pdfFontError': 'Impossible de charger la police arabe pour le PDF. Vérifie ta connexion et réessaie.',
     'export.pdfGenericError': 'Une erreur est survenue pendant l’export PDF. Réessaie plus tard.',
     'export.csv.product': 'Produit',
     'export.csv.quantity': 'Quantité',
     'export.csv.unit': 'Unité',
-    'export.csv.price': 'Prix',
-    'export.csv.total': 'Total',
     'export.csv.note': 'Note',
     'footer.message': 'On ne demande rien d’autre que vos prières. Merci et que Dieu vous protège ❤️',
     'footer.copyright': '© {year} Sou9a List · Tous droits réservés.',
@@ -512,7 +482,7 @@ const translations: Record<LanguageKey, TranslationRecord> = {
     'seasonal.subtitle': 'Les incontournables du marché tunisien en ce moment',
     'seasonal.cta': 'Voir',
     'share.subject': 'Ma liste de courses',
-    'share.bodyLine': '{index}. {name} — {quantity}{unit} {note} · {total}',
+    'share.bodyLine': '{index}. {name} — {quantity}{unit}{note}',
     'share.empty': 'La liste est vide pour l’instant.',
   },
   en: {
@@ -523,24 +493,18 @@ const translations: Record<LanguageKey, TranslationRecord> = {
     'home.viewItems': 'View category',
     'category.total': '{count} product(s)',
     'category.selected': '{count} selected',
-    'category.totalCost': 'Total: {amount}',
     'items.back': 'Back',
     'items.toSummary': 'Go to summary',
     'items.searchPlaceholder': 'Search for a product...',
     'items.quantityPlaceholder': 'Quantity',
     'items.notePlaceholder': 'Note',
-    'items.categoryCost': 'Category total: {amount}',
-    'items.totalBudget': '{count} product(s) · {amount}',
-    'items.priceUnit': 'Unit price: {price}',
-    'items.lineTotal': 'Subtotal: {total}',
+    'items.categoryCount': '{count} item(s) in this category',
     'items.seasonal': 'Seasonal',
     'summary.title': 'List summary',
     'summary.subtitle': 'Here are the items you checked ✔️',
     'summary.empty': 'No product selected yet. Go back to the categories to complete your list.',
     'summary.totalSelected': '{count} product(s) selected',
-    'summary.totalCost': 'Total: {amount}',
-    'summary.categoryCost': '{amount}',
-    'summary.lineCost': 'Subtotal: {amount}',
+    'summary.categoryCount': '{count} item(s)',
     'summary.exportCsv': 'Export CSV',
     'summary.exportPdf': 'Export PDF',
     'summary.shareWhatsapp': 'Share on WhatsApp',
@@ -573,6 +537,7 @@ const translations: Record<LanguageKey, TranslationRecord> = {
     'settings.budgetReset': 'Reset goal',
     'settings.budgetCurrent': 'Current goal: {amount}',
     'settings.budgetNoTarget': 'No goal defined yet. Set one to start tracking.',
+    'settings.budgetDisabled': 'Budget tracking is paused while no prices are available.',
     'budget.title': 'Budget tracker',
     'budget.subtitle': 'Compare your spending with the target you set.',
     'budget.current': 'Current total: {amount}',
@@ -589,20 +554,15 @@ const translations: Record<LanguageKey, TranslationRecord> = {
     'suggestions.seasonalTitle': 'Seasonal highlights',
     'suggestions.add': 'Add to list',
     'suggestions.timesSelected': 'Selected {count} times',
-    'price.unavailable': 'Price unavailable for now',
     'export.pdfUnavailable': 'PDF export is not yet available for this language.',
     'export.languageLine': 'Language: {language}',
     'export.quantityLine': 'Quantity: {quantity}{unit}',
-    'export.unitPriceLine': 'Unit price: {price}',
-    'export.subtotalLine': 'Subtotal: {total}',
     'export.noteLine': 'Note: {note}',
     'export.pdfFontError': 'Unable to load the Arabic font for the PDF. Check your connection and try again.',
     'export.pdfGenericError': 'Something went wrong while exporting the PDF. Please try again.',
     'export.csv.product': 'Product',
     'export.csv.quantity': 'Quantity',
     'export.csv.unit': 'Unit',
-    'export.csv.price': 'Price',
-    'export.csv.total': 'Total',
     'export.csv.note': 'Note',
     'footer.message': 'All we ask for is your prayers. Thank you and may you stay blessed ❤️',
     'footer.copyright': '© {year} Sou9a List · All rights reserved.',
@@ -674,7 +634,7 @@ const translations: Record<LanguageKey, TranslationRecord> = {
     'seasonal.subtitle': 'The best of Tunisian markets right now',
     'seasonal.cta': 'See category',
     'share.subject': 'My shopping list',
-    'share.bodyLine': '{index}. {name} — {quantity}{unit}{note} · {total}',
+    'share.bodyLine': '{index}. {name} — {quantity}{unit}{note}',
     'share.empty': 'The list is empty for now.',
   },
 }

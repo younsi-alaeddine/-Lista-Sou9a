@@ -19,8 +19,6 @@ const SmartSuggestions = ({ frequent, seasonal, onAdd, language }: SmartSuggesti
     return null
   }
 
-  const priceUnavailable = translate(language, 'price.unavailable')
-
   return (
     <section className="space-y-4 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
       <header>
@@ -52,9 +50,6 @@ const SmartSuggestions = ({ frequent, seasonal, onAdd, language }: SmartSuggesti
                       {translateCategory(language, item.category)}
                     </p>
                   </div>
-                  <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-300">
-                    {priceUnavailable}
-                  </span>
                 </div>
                 <p className="text-xs text-neutral-500 dark:text-neutral-400">
                   {translate(language, 'suggestions.timesSelected', { count: stats.timesSelected })}
@@ -85,9 +80,6 @@ const SmartSuggestions = ({ frequent, seasonal, onAdd, language }: SmartSuggesti
                 <div className="flex items-center justify-between">
                   <span className="rounded-full bg-amber-300/70 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-900">
                     {translate(language, 'items.seasonal')}
-                  </span>
-                  <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">
-                    {priceUnavailable}
                   </span>
                 </div>
                 <p className="mt-3 font-heading text-base text-neutral-900 dark:text-neutral-100">

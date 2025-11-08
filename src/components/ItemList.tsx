@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react'
 import type { ShoppingCategory, ShoppingItem, ShoppingState } from '../types'
 import type { LanguageKey } from '../i18n'
 import { translate, translateCategory, translateItemName, translateItemUnit } from '../i18n'
-import { calculateItemCost, formatCurrency } from '../utils/budget'
 
 type ItemListProps = {
   category: ShoppingCategory | null
@@ -14,8 +13,6 @@ type ItemListProps = {
   onGoSummary: () => void
   language: LanguageKey
   totalSelected: number
-  totalCost: number
-  categoryCost: number
 }
 
 const ItemList = ({
@@ -28,8 +25,6 @@ const ItemList = ({
   onGoSummary,
   language,
   totalSelected,
-  totalCost,
-  categoryCost,
 }: ItemListProps) => {
   const [query, setQuery] = useState('')
 
@@ -62,13 +57,12 @@ const ItemList = ({
             {category ? translateCategory(language, category) : ''}
           </h2>
           <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-300">
-            {translate(language, 'items.categoryCost', { amount: formatCurrency(categoryCost) })}
+            {translate(language, 'items.categoryCount', { count: items.length })}
           </p>
-          <p className="text-xs text-neutral-500 dark:text-neutral-400 sm:text-sm">
-            {translate(language, 'items.totalBudget', {
-              count: totalSelected,
-              amount: formatCurrency(totalCost),
-            })}
+          <p className="mt-2 text-xs text-neutral-500 dark:text-neutral-300">
+            <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary-dark dark:bg-primary/20">
+              {translate(language, 'summary.totalSelected', { count: totalSelected })}
+            </span>
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -114,10 +108,6 @@ const ItemList = ({
           const selected = entry?.selected ?? false
           const quantity = entry?.quantity ?? ''
           const note = entry?.note ?? ''
-          const price = item.price ?? 0
-          const lineCost = calculateItemCost({ ...item, ...entry, selected })
-          const priceLabel = price > 0 ? formatCurrency(price) : '—'
-          const lineLabel = lineCost > 0 ? formatCurrency(lineCost) : '—'
 
           return (
             <div
@@ -149,9 +139,8 @@ const ItemList = ({
                     </span>
                   </div>
                   <div className="ml-8 space-y-1 text-sm text-neutral-500 dark:text-neutral-400 sm:ml-0 sm:pl-8">
-                    <p>{translate(language, 'items.priceUnit', { price: priceLabel })}</p>
-                    <p className="font-medium text-emerald-600 dark:text-emerald-300">
-                      {translate(language, 'items.lineTotal', { total: lineLabel })}
+                    <p className="text-xs text-neutral-500 dark:text-neutral-300">
+                      {translate(language, 'items.quantityPlaceholder')}: {quantity || '—'}
                     </p>
                   </div>
                 </label>

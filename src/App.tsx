@@ -23,7 +23,6 @@ import items from './data/items'
 import type { LanguageKey } from './i18n'
 import { translate, translateItemName, translateItemUnit } from './i18n'
 import { downloadCsv, downloadPdf } from './utils/export'
-import { calculateItemCost } from './utils/budget'
 
 const STORAGE_KEY = 'sou9a-app-state-v1'
 
@@ -196,11 +195,6 @@ const App = () => {
   const categoryOverviews = useMemo(() => {
     return Object.entries(groupedItems).map(([name, list]) => {
       const categoryName = name as ShoppingCategory
-      const cost = list.reduce((total, item) => {
-        const entry = persistedState.items[item.key]
-        if (!entry?.selected) return total
-        return total + calculateItemCost({ ...item, ...entry })
-      }, 0)
       const selected = list.reduce((total, item) => {
         return total + (persistedState.items[item.key]?.selected ? 1 : 0)
       }, 0)
@@ -208,7 +202,6 @@ const App = () => {
         name: categoryName,
         total: list.length,
         selected,
-        cost,
       }
     })
   }, [groupedItems, persistedState.items])
@@ -233,44 +226,10 @@ const App = () => {
       .filter((value): value is ShoppingItem & ShoppingEntry => value !== null)
   }, [items, persistedState.items])
 
-  const totalSelectedCost = useMemo(() => {
-    return selectedItems.reduce((total, item) => total + calculateItemCost(item), 0)
-  }, [selectedItems])
-
-  useEffect(() => {
-    if (!Number.isFinite(totalSelectedCost)) return
-    const today = new Date()
-    const dateKey = today.toISOString().slice(0, 10)
-    const roundedTotal = Number(totalSelectedCost.toFixed(2))
-    updateState((prev) => {
-      const currentHistory = prev.budgetHistory ?? []
-      const foundIndex = currentHistory.findIndex((entry) => entry.date === dateKey)
-      const timestamp = today.toISOString()
-      if (foundIndex !== -1) {
-        const existing = currentHistory[foundIndex]
-        if (Math.abs(existing.total - roundedTotal) < 0.01) {
-          return prev
-        }
-        const nextHistory = [...currentHistory]
-        nextHistory[foundIndex] = { ...existing, total: roundedTotal, recordedAt: timestamp }
-        return { ...prev, budgetHistory: nextHistory }
-      }
-      const nextHistory = [...currentHistory.slice(-59), { date: dateKey, total: roundedTotal, recordedAt: timestamp }]
-      return { ...prev, budgetHistory: nextHistory }
-    })
-  }, [totalSelectedCost, updateState])
-
   const currentCategoryItems = useMemo(() => {
     if (!activeCategory) return []
     return groupedItems[activeCategory] ?? []
   }, [activeCategory, groupedItems])
-
-  const currentCategoryCost = useMemo(() => {
-    if (!activeCategory) return 0
-    return selectedItems
-      .filter((item) => item.category === activeCategory)
-      .reduce((total, item) => total + calculateItemCost(item), 0)
-  }, [activeCategory, selectedItems])
 
   const handleSelectCategory = useCallback((category: ShoppingCategory) => {
     setActiveCategory(category)
@@ -345,19 +304,6 @@ const App = () => {
     [updateState],
   )
 
-  const handleUpdateBudgetTarget = useCallback(
-    (value: number | null) => {
-      updateState((prev) => ({
-        ...prev,
-        preferences: {
-          ...prev.preferences,
-          budgetTarget: value,
-        },
-      }))
-    },
-    [updateState],
-  )
-
   const handleToggleDarkMode = useCallback(
     (value: boolean) => {
       updateState((prev) => ({
@@ -411,7 +357,6 @@ const App = () => {
         quantity: item.quantity || '-',
         unit: unit ? ` ${unit}` : '',
         note: item.note ? ` (${item.note})` : '',
-        total: translate(language, 'price.unavailable'),
       })
     })
 
@@ -480,8 +425,6 @@ const App = () => {
         onGoSummary={() => setView('summary')}
         language={language}
         totalSelected={totalSelected}
-        totalCost={totalSelectedCost}
-        categoryCost={currentCategoryCost}
       />
     )
   } else if (view === 'settings') {
@@ -490,7 +433,6 @@ const App = () => {
         preferences={persistedState.preferences}
         onToggleDarkMode={handleToggleDarkMode}
         onChangeLanguage={handleChangeLanguage}
-        onUpdateBudgetTarget={handleUpdateBudgetTarget}
         language={language}
       />
     )
@@ -506,10 +448,6 @@ const App = () => {
         onShareEmail={handleShareEmail}
         onShareSystem={handleShareSystem}
         onClearAll={handleClearAll}
-        totalCost={totalSelectedCost}
-        categoryCosts={categoryOverviews}
-        budgetHistory={persistedState.budgetHistory}
-        budgetTarget={persistedState.preferences.budgetTarget}
       />
     )
   }

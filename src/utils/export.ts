@@ -16,11 +16,8 @@ export const downloadCsv = (items: SelectedItem[], languageKey: LanguageKey) => 
     translate(languageKey, 'export.csv.product'),
     translate(languageKey, 'export.csv.quantity'),
     translate(languageKey, 'export.csv.unit'),
-    translate(languageKey, 'export.csv.price'),
-    translate(languageKey, 'export.csv.total'),
     translate(languageKey, 'export.csv.note'),
   ]
-  const priceUnavailable = translate(languageKey, 'price.unavailable')
   const rows = items.map((item) => {
     const name = translateItemName(languageKey, item).replace(/"/g, '""')
     const unit = translateItemUnit(languageKey, item).replace(/"/g, '""')
@@ -28,8 +25,6 @@ export const downloadCsv = (items: SelectedItem[], languageKey: LanguageKey) => 
       name,
       (item.quantity ?? '').replace(/"/g, '""'),
       unit,
-      priceUnavailable,
-      priceUnavailable,
       (item.note ?? '').replace(/"/g, '""'),
     ]
   })
@@ -55,7 +50,6 @@ export const downloadPdf = async (items: SelectedItem[], languageKey: LanguageKe
   const doc = new jsPDF()
   const pageWidth = doc.internal.pageSize.getWidth()
   const margin = 14
-  const priceUnavailable = translate(languageKey, 'price.unavailable')
   const languageName = translate(languageKey, `settings.language.${languageKey}` as TranslationKey)
   const languageLine = translate(languageKey, 'export.languageLine', { language: languageName })
   const isArabic = languageKey === 'derja'
@@ -105,14 +99,6 @@ export const downloadPdf = async (items: SelectedItem[], languageKey: LanguageKe
     })
     doc.setFontSize(11)
     doc.text(formatText(quantityLine), startX, cursorY, { align })
-    cursorY += 6
-
-    const priceLine = translate(languageKey, 'export.unitPriceLine', { price: priceUnavailable })
-    doc.text(formatText(priceLine), startX, cursorY, { align })
-    cursorY += 5
-
-    const totalLine = translate(languageKey, 'export.subtotalLine', { total: priceUnavailable })
-    doc.text(formatText(totalLine), startX, cursorY, { align })
     cursorY += 6
 
     if (item.note) {

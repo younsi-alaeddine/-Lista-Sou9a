@@ -6,7 +6,6 @@ type CategoryOverview = {
   name: ShoppingCategory
   total: number
   selected: number
-  cost: number
 }
 
 type CategoryListProps = {
@@ -41,8 +40,6 @@ const categoryIcons = {
 } as Record<ShoppingCategory, string>
 
 const CategoryList = ({ categories, onSelect, language }: CategoryListProps) => {
-  const priceUnavailable = translate(language, 'price.unavailable')
-
   return (
     <section className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -63,9 +60,6 @@ const CategoryList = ({ categories, onSelect, language }: CategoryListProps) => 
               </span>
               <span className="rounded-full bg-primary/10 px-3 py-1 text-primary-dark dark:bg-primary/20">
                 {translate(language, 'category.selected', { count: category.selected })}
-              </span>
-              <span className="rounded-full bg-emerald-100 px-3 py-1 text-emerald-700 dark:bg-emerald-900/60 dark:text-emerald-200">
-                {translate(language, 'category.totalCost', { amount: priceUnavailable })}
               </span>
             </div>
             <span className="mt-auto inline-flex items-center gap-2 text-sm font-medium text-primary">

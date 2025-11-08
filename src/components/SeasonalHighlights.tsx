@@ -11,8 +11,6 @@ type SeasonalHighlightsProps = {
 const SeasonalHighlights = ({ items, language, onSelectCategory }: SeasonalHighlightsProps) => {
   if (items.length === 0) return null
 
-  const priceUnavailable = translate(language, 'price.unavailable')
-
   return (
     <section className="space-y-3">
       <div className="flex items-center justify-between">
@@ -42,10 +40,11 @@ const SeasonalHighlights = ({ items, language, onSelectCategory }: SeasonalHighl
             <h3 className="mt-3 font-heading text-lg text-emerald-900 dark:text-emerald-100">
               {translateItemName(language, item)}
             </h3>
-            <p className="text-sm text-emerald-700 dark:text-emerald-200">
-              {item.unit ? `${translateItemUnit(language, item)} · ` : ''}
-              {priceUnavailable}
-            </p>
+            {item.unit ? (
+              <p className="text-sm text-emerald-700 dark:text-emerald-200">
+                {translateItemUnit(language, item)}
+              </p>
+            ) : null}
           </button>
         ))}
       </div>

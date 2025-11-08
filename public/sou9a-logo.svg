@@ -1,0 +1,35 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="basketGradient" x1="12" y1="8" x2="52" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0ea5e9" />
+      <stop offset="1" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="handleGradient" x1="20" y1="12" x2="44" y2="32" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fbbf24" />
+      <stop offset="1" stop-color="#f97316" />
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="16" fill="url(#basketGradient)" />
+  <path
+    d="M20 22c0-6 4.8-10 12-10s12 4 12 10"
+    stroke="url(#handleGradient)"
+    stroke-width="4"
+    stroke-linecap="round"
+  />
+  <path
+    d="M16 24h32l-3 22a4 4 0 0 1-4 3.5H23a4 4 0 0 1-4-3.5L16 24Z"
+    fill="#f8fafc"
+    opacity="0.95"
+  />
+  <path
+    d="M22 32h4m6 0h4m6 0h4"
+    stroke="#0f172a"
+    stroke-width="3"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <circle cx="24" cy="41" r="3.5" fill="#0ea5e9" />
+  <circle cx="40" cy="41" r="3.5" fill="#0ea5e9" />
+</svg>
+
+

@@ -549,8 +549,8 @@ const App = () => {
         </footer>
       </div>
       <Navbar currentView={view} onNavigate={handleNavigate} selectedCount={totalSelected} language={language} />
-      <div className="fixed bottom-24 left-1/2 z-40 flex w-full max-w-xl -translate-x-1/2 justify-center px-4 sm:bottom-28 sm:left-auto sm:right-6 sm:w-auto sm:translate-x-0 sm:px-0">
-        <div className="flex w-full flex-wrap items-center justify-center gap-2 sm:w-auto sm:flex-col sm:items-end sm:gap-3">
+      <div className="sticky bottom-[88px] z-40 w-full px-4 pb-4 sm:fixed sm:bottom-28 sm:right-6 sm:w-auto sm:px-0 sm:pb-0">
+        <div className="mx-auto flex max-w-xl flex-wrap items-center justify-center gap-2 rounded-3xl bg-white/95 p-2 shadow-[0_20px_40px_-28px_rgba(15,23,42,0.45)] backdrop-blur-md dark:bg-neutral-900/90 sm:mx-0 sm:flex-col sm:items-end sm:gap-3 sm:rounded-2xl sm:bg-transparent sm:p-0 sm:shadow-none sm:backdrop-blur-none">
           <button
             type="button"
             onClick={() => setTutorialOpen(true)}

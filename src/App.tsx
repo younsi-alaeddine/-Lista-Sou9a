@@ -151,6 +151,7 @@ const App = () => {
   const [tipsOpen, setTipsOpen] = useState(false)
   const [aboutOpen, setAboutOpen] = useState(false)
   const [contactOpen, setContactOpen] = useState(false)
+  const [actionsOpen, setActionsOpen] = useState(false)
 
   const language: LanguageKey = persistedState.preferences.language
 
@@ -550,47 +551,57 @@ const App = () => {
       </div>
       <Navbar currentView={view} onNavigate={handleNavigate} selectedCount={totalSelected} language={language} />
       <div className="sticky bottom-[88px] z-40 w-full px-4 pb-4 sm:fixed sm:bottom-28 sm:right-6 sm:w-auto sm:px-0 sm:pb-0">
-        <div className="mx-auto flex max-w-xl flex-wrap items-center justify-center gap-2 rounded-3xl bg-white/95 p-2 shadow-[0_20px_40px_-28px_rgba(15,23,42,0.45)] backdrop-blur-md dark:bg-neutral-900/90 sm:mx-0 sm:flex-col sm:items-end sm:gap-3 sm:rounded-2xl sm:bg-transparent sm:p-0 sm:shadow-none sm:backdrop-blur-none">
+        <div className="mx-auto flex max-w-xl items-center justify-center gap-3 sm:mx-0 sm:flex-col sm:items-end sm:gap-3">
           <button
             type="button"
-            onClick={() => setTutorialOpen(true)}
-            className="flex-1 min-w-[140px] rounded-full bg-primary px-4 py-2 text-sm font-medium text-white shadow-lg transition hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary/50 sm:flex-none"
+            onClick={() => setActionsOpen((prev) => !prev)}
+            aria-expanded={actionsOpen}
+            aria-label={translate(language, actionsOpen ? 'home.actionsClose' : 'home.actionsOpen')}
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-lg text-white shadow-lg transition hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary/50"
           >
-            <span aria-hidden="true">📖</span>
-            {translate(language, 'tutorial.openButton')}
+            {actionsOpen ? '✕' : '☰'}
           </button>
-          <button
-            type="button"
-            onClick={() => setMarketOpen(true)}
-            className="flex-1 min-w-[140px] rounded-full bg-neutral-900/90 px-4 py-2 text-sm font-medium text-white shadow-lg transition hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-800 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200 sm:flex-none"
+          <div
+            className={`grid flex-1 grid-cols-2 gap-2 transition-all duration-200 sm:flex sm:flex-col sm:flex-1 sm:gap-3 ${
+              actionsOpen ? 'max-h-96 opacity-100 sm:max-h-none' : 'pointer-events-none max-h-0 opacity-0 sm:pointer-events-auto'
+            }`}
           >
-            <span aria-hidden="true">🗺️</span>
-            {translate(language, 'home.marketButton')}
-          </button>
-          <button
-            type="button"
-            onClick={() => setTipsOpen(true)}
-            className="flex-1 min-w-[140px] rounded-full bg-amber-500/90 px-4 py-2 text-sm font-medium text-white shadow-lg transition hover:bg-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 sm:flex-none"
-          >
-            <span aria-hidden="true">💡</span>
-            {translate(language, 'home.tipsButton')}
-          </button>
-          <button
-            type="button"
-            onClick={() => setAboutOpen(true)}
-            className="flex-1 min-w-[140px] rounded-full bg-primary/80 px-4 py-2 text-sm font-medium text-white shadow-lg transition hover:bg-primary focus:outline-none focus:ring-2 focus:ring-primary/50 sm:flex-none"
-          >
-            <span aria-hidden="true">ℹ️</span>
-            {translate(language, 'home.aboutButton')}
-          </button>
-          <button
-            type="button"
-            onClick={() => setContactOpen(true)}
-            className="flex-1 min-w-[140px] rounded-full bg-emerald-500/90 px-4 py-2 text-sm font-medium text-white shadow-lg transition hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 sm:flex-none"
-          >
-            <span aria-hidden="true">📞</span>
-            {translate(language, 'home.contactButton')}
-          </button>
+            <button
+              type="button"
+              onClick={() => setTutorialOpen(true)}
+              className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-white shadow-lg transition hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary/50"
+            >
+              <span aria-hidden="true">📖</span> {translate(language, 'tutorial.openButton')}
+            </button>
+            <button
+              type="button"
+              onClick={() => setMarketOpen(true)}
+              className="rounded-full bg-neutral-900/90 px-4 py-2 text-sm font-medium text-white shadow-lg transition hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-800 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200"
+            >
+              <span aria-hidden="true">🗺️</span> {translate(language, 'home.marketButton')}
+            </button>
+            <button
+              type="button"
+              onClick={() => setTipsOpen(true)}
+              className="rounded-full bg-amber-500/90 px-4 py-2 text-sm font-medium text-white shadow-lg transition hover:bg-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50"
+            >
+              <span aria-hidden="true">💡</span> {translate(language, 'home.tipsButton')}
+            </button>
+            <button
+              type="button"
+              onClick={() => setAboutOpen(true)}
+              className="rounded-full bg-primary/80 px-4 py-2 text-sm font-medium text-white shadow-lg transition hover:bg-primary focus:outline-none focus:ring-2 focus:ring-primary/50"
+            >
+              <span aria-hidden="true">ℹ️</span> {translate(language, 'home.aboutButton')}
+            </button>
+            <button
+              type="button"
+              onClick={() => setContactOpen(true)}
+              className="rounded-full bg-emerald-500/90 px-4 py-2 text-sm font-medium text-white shadow-lg transition hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 sm:col-span-full"
+            >
+              <span aria-hidden="true">📞</span> {translate(language, 'home.contactButton')}
+            </button>
+          </div>
         </div>
       </div>
       {tutorialOpen ? (

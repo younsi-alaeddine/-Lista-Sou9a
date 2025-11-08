@@ -94,6 +94,8 @@ export type TranslationKey =
   | 'footer.message'
   | 'footer.copyright'
   | 'footer.instagram'
+  | 'home.actionsOpen'
+  | 'home.actionsClose'
   | 'tutorial.title'
   | 'tutorial.subtitle'
   | 'tutorial.step1.title'
@@ -281,6 +283,8 @@ const translations: Record<LanguageKey, TranslationRecord> = {
     'footer.message': 'ما نطلب كان دعاؤكم. ربي ينوّر طريقكم ويبارك فيكم ❤️',
     'footer.copyright': '© {year} Sou9a List · كل الحقوق محفوظة.',
     'footer.instagram': 'تابعونا على إنستغرام: {handle}',
+    'home.actionsOpen': 'إفتح القائمة العائمة',
+    'home.actionsClose': 'سكر القائمة العائمة',
     'tutorial.title': 'دليل سريع للاستعمال',
     'tutorial.subtitle': 'ثلاث خطوات بسيطة باش تحضّر قايمتك وتشاركها مع العائلة.',
     'tutorial.step1.title': 'اختار الفئات',
@@ -441,6 +445,8 @@ const translations: Record<LanguageKey, TranslationRecord> = {
     'footer.message': 'On ne demande rien d’autre que vos prières. Merci et que Dieu vous protège ❤️',
     'footer.copyright': '© {year} Sou9a List · Tous droits réservés.',
     'footer.instagram': 'Suis-nous sur Instagram : {handle}',
+    'home.actionsOpen': 'Ouvrir les actions rapides',
+    'home.actionsClose': 'Fermer les actions rapides',
     'tutorial.title': 'Guide express',
     'tutorial.subtitle': 'Trois étapes pour préparer et partager ta liste en un clin d’œil.',
     'tutorial.step1.title': 'Choisir les catégories',
@@ -601,6 +607,8 @@ const translations: Record<LanguageKey, TranslationRecord> = {
     'footer.message': 'All we ask for is your prayers. Thank you and may you stay blessed ❤️',
     'footer.copyright': '© {year} Sou9a List · All rights reserved.',
     'footer.instagram': 'Follow us on Instagram: {handle}',
+    'home.actionsOpen': 'Open quick actions',
+    'home.actionsClose': 'Close quick actions',
     'tutorial.title': 'Quick start guide',
     'tutorial.subtitle': 'Three steps to prepare and share your list.',
     'tutorial.step1.title': 'Pick categories',

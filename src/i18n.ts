@@ -22,10 +22,10 @@ export type TranslationKey =
   | 'summary.empty'
   | 'summary.totalSelected'
   | 'summary.categoryCount'
-  | 'summary.exportCsv'
-  | 'summary.exportPdf'
+  | 'summary.exportImage'
+  | 'summary.exportImageLoading'
+  | 'summary.exportImageError'
   | 'summary.shareWhatsapp'
-  | 'summary.shareEmail'
   | 'summary.shareSystem'
   | 'summary.clearAll'
   | 'summary.confirmClear'
@@ -201,10 +201,10 @@ const translations: Record<LanguageKey, TranslationRecord> = {
     'summary.empty': 'ما فما حتى منتوج معلّم عليه. بدّل الفئة وكمّل القايمة.',
     'summary.totalSelected': '{count} منتوج مختار',
     'summary.categoryCount': '{count} منتوج',
-    'summary.exportCsv': 'تصدير CSV',
-    'summary.exportPdf': 'تصدير PDF',
+    'summary.exportImage': 'نزل الصورة',
+    'summary.exportImageLoading': 'جاري التحضير...',
+    'summary.exportImageError': 'ما نجّمش نخرج صورة الملخّص. جرّب مرّة أخرى.',
     'summary.shareWhatsapp': 'شارك على واتساب',
-    'summary.shareEmail': 'ابعت بالإيميل',
     'summary.shareSystem': 'شارك بالتليفون',
     'summary.clearAll': 'نظّف القايمة',
     'summary.confirmClear': 'متأكد تحب تنظّف الكل؟',
@@ -353,10 +353,10 @@ const translations: Record<LanguageKey, TranslationRecord> = {
     'summary.empty': 'Aucun produit sélectionné pour le moment. Reviens aux catégories pour compléter ta liste.',
     'summary.totalSelected': '{count} produit(s) sélectionné(s)',
     'summary.categoryCount': '{count} produit(s)',
-    'summary.exportCsv': 'Exporter en CSV',
-    'summary.exportPdf': 'Exporter en PDF',
+    'summary.exportImage': 'Exporter en image',
+    'summary.exportImageLoading': 'Création en cours…',
+    'summary.exportImageError': 'Impossible de générer l’image du résumé. Réessaie.',
     'summary.shareWhatsapp': 'Partager sur WhatsApp',
-    'summary.shareEmail': 'Envoyer par e-mail',
     'summary.shareSystem': 'Partager depuis l’appareil',
     'summary.clearAll': 'Effacer la liste',
     'summary.confirmClear': 'Tu es sûr de vouloir tout effacer ?',
@@ -505,10 +505,10 @@ const translations: Record<LanguageKey, TranslationRecord> = {
     'summary.empty': 'No product selected yet. Go back to the categories to complete your list.',
     'summary.totalSelected': '{count} product(s) selected',
     'summary.categoryCount': '{count} item(s)',
-    'summary.exportCsv': 'Export CSV',
-    'summary.exportPdf': 'Export PDF',
+    'summary.exportImage': 'Save as image',
+    'summary.exportImageLoading': 'Generating…',
+    'summary.exportImageError': 'Unable to create the image. Please try again.',
     'summary.shareWhatsapp': 'Share on WhatsApp',
-    'summary.shareEmail': 'Send by email',
     'summary.shareSystem': 'Share from device',
     'summary.clearAll': 'Clear list',
     'summary.confirmClear': 'Are you sure you want to clear everything?',

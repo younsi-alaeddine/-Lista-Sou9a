@@ -22,7 +22,6 @@ import type {
 import items from './data/items'
 import type { LanguageKey } from './i18n'
 import { translate, translateItemName, translateItemUnit } from './i18n'
-import { downloadCsv, downloadPdf } from './utils/export'
 
 const STORAGE_KEY = 'sou9a-app-state-v1'
 
@@ -369,12 +368,6 @@ const App = () => {
     window.open(url, '_blank')
   }, [buildShareMessage])
 
-  const handleShareEmail = useCallback(() => {
-    const subject = translate(language, 'share.subject')
-    const body = buildShareMessage()
-    window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-  }, [buildShareMessage, language])
-
   const handleShareSystem = useCallback(async () => {
     const subject = translate(language, 'share.subject')
     const text = buildShareMessage()
@@ -389,19 +382,6 @@ const App = () => {
       alert(text)
     }
   }, [buildShareMessage, language])
-
-  const exportCsv = useCallback(() => {
-    downloadCsv(selectedItems, language)
-  }, [language, selectedItems])
-
-  const exportPdf = useCallback(async () => {
-    try {
-      await downloadPdf(selectedItems, language)
-    } catch (error) {
-      console.error('Unable to generate PDF', error)
-      alert(translate(language, 'export.pdfGenericError'))
-    }
-  }, [language, selectedItems])
 
   const currentYear = new Date().getFullYear()
 
@@ -442,10 +422,7 @@ const App = () => {
         items={selectedItems}
         language={language}
         onBack={() => setView('home')}
-        onExportCsv={exportCsv}
-        onExportPdf={exportPdf}
         onShareWhatsapp={handleShareWhatsapp}
-        onShareEmail={handleShareEmail}
         onShareSystem={handleShareSystem}
         onClearAll={handleClearAll}
       />

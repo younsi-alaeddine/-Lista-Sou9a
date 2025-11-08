@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import type { ShoppingCategory, ShoppingItem } from '../types'
 import type { LanguageKey } from '../i18n'
 import { translate, translateCategory, translateItemName, translateItemUnit } from '../i18n'
@@ -13,10 +13,7 @@ type SummaryProps = {
   items: SelectedItem[]
   language: LanguageKey
   onBack: () => void
-  onExportCsv: () => void
-  onExportPdf: () => void
   onShareWhatsapp: () => void
-  onShareEmail: () => void
   onShareSystem: () => void
   onClearAll: () => void
 }
@@ -25,13 +22,13 @@ const Summary = ({
   items,
   language,
   onBack,
-  onExportCsv,
-  onExportPdf,
   onShareWhatsapp,
-  onShareEmail,
   onShareSystem,
   onClearAll,
 }: SummaryProps) => {
+  const containerRef = useRef<HTMLElement | null>(null)
+  const [isExportingImage, setIsExportingImage] = useState(false)
+
   const grouped = useMemo(() => {
     return items.reduce<Record<ShoppingCategory, SelectedItem[]>>((acc, item) => {
       acc[item.category] = acc[item.category] || []
@@ -64,8 +61,29 @@ const Summary = ({
     )
   }
 
+  const handleExportImage = async () => {
+    if (!containerRef.current) return
+    setIsExportingImage(true)
+    try {
+      const [{ default: html2canvas }] = await Promise.all([import('html2canvas')])
+      const canvas = await html2canvas(containerRef.current, {
+        scale: Math.min(window.devicePixelRatio, 2),
+        backgroundColor: '#f8fafc',
+      })
+      const link = document.createElement('a')
+      link.href = canvas.toDataURL('image/png')
+      link.download = `lista-sou9a-${new Date().toISOString().slice(0, 10)}.png`
+      link.click()
+    } catch (error) {
+      console.error('Unable to export summary as image', error)
+      alert(translate(language, 'summary.exportImageError'))
+    } finally {
+      setIsExportingImage(false)
+    }
+  }
+
   return (
-    <section className="space-y-6">
+    <section ref={containerRef} className="space-y-6">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="font-heading text-2xl sm:text-3xl">{translate(language, 'summary.title')}</h2>
@@ -156,17 +174,14 @@ const Summary = ({
       <div className="flex flex-wrap gap-3">
         <button
           type="button"
-          onClick={onExportCsv}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-neutral-900 px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-800 dark:bg-neutral-100 dark:text-neutral-900"
+          onClick={handleExportImage}
+          disabled={isExportingImage}
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-neutral-900 px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-800 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-neutral-100 dark:text-neutral-900"
         >
-          📄 {translate(language, 'summary.exportCsv')}
-        </button>
-        <button
-          type="button"
-          onClick={onExportPdf}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary/40"
-        >
-          🖨️ {translate(language, 'summary.exportPdf')}
+          📷{' '}
+          {isExportingImage
+            ? translate(language, 'summary.exportImageLoading')
+            : translate(language, 'summary.exportImage')}
         </button>
         <button
           type="button"
@@ -174,13 +189,6 @@ const Summary = ({
           className="inline-flex items-center justify-center gap-2 rounded-full bg-[#128C7E] px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-[#0f6e62] focus:outline-none focus:ring-2 focus:ring-[#128C7E]/40"
         >
           💬 {translate(language, 'summary.shareWhatsapp')}
-        </button>
-        <button
-          type="button"
-          onClick={onShareEmail}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-neutral-200 px-5 py-2 text-sm font-medium text-neutral-800 transition hover:bg-neutral-300 focus:outline-none focus:ring-2 focus:ring-neutral-400/40 dark:bg-neutral-700 dark:text-neutral-100"
-        >
-          ✉️ {translate(language, 'summary.shareEmail')}
         </button>
         <button
           type="button"
